@@ -15,6 +15,7 @@ import Layout from '@/layout';
 /* Router for modules */
 import adminRoutes from './modules/admin';
 import permissionRoutes from './modules/permission';
+import productRoutes from './modules/product';
 
 /**
  * Sub-menu only appear when children.length>=1
@@ -85,6 +86,7 @@ export const constantRoutes = [
       },
     ],
   },
+  productRoutes,
   {
     path: '/profile',
     component: Layout,
@@ -103,19 +105,6 @@ export const constantRoutes = [
 export const asyncRoutes = [
   permissionRoutes,
   adminRoutes,
-  {
-    path: '/theme',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/theme/index'),
-        name: 'Theme',
-        meta: { title: 'theme', icon: 'theme' },
-      },
-    ],
-  },
   { path: '*', redirect: '/404', hidden: true },
 ];
 
