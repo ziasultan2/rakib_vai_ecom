@@ -35,12 +35,8 @@ Route::namespace('Api')->group(function() {
         Route::apiResource('permissions', 'PermissionController')->middleware('permission:' . Acl::PERMISSION_PERMISSION_MANAGE);
 
         // System
-        Route::apiResource('eservices', 'EServiceController');
-        Route::apiResource('courts', 'CourtController');
-        Route::apiResource('lawyers', 'LawyerController');
-        Route::apiResource('customers', 'CustomerController');
-        Route::apiResource('chambers', 'ChamberController');
-        Route::apiResource('books', 'BookController');
+        Route::apiResource('products', 'ProductController');
+        Route::apiResource('orders', 'OrderController');
 
         // Custom routes
         Route::put('users/{user}', 'UserController@update');

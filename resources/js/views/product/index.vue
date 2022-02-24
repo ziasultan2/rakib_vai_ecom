@@ -40,18 +40,18 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="'Create new Court'" :visible.sync="dialogFormVisible">
+    <el-dialog :title="'Create new Product'" :visible.sync="dialogFormVisible">
       <div v-loading="categoryCreating" class="form-container">
         <el-form
           ref="categoryForm"
           :rules="rules"
-          :model="court"
+          :model="product"
           label-position="left"
           label-width="150px"
           style="max-width: 500px"
         >
           <el-form-item label="Name" prop="name" required="">
-            <el-input v-model="court.name" />
+            <el-input v-model="product.name" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -78,9 +78,9 @@ import Resource from '@/api/resource';
 import waves from '@/directive/waves';
 import permission from '@/directive/permission';
 
-const CourtResource = new Resource('courts');
+const ProductResource = new Resource('products');
 export default {
-  name: 'CourtList',
+  name: 'ProductList',
   components: { Pagination },
   directives: { waves, permission },
   data() {
@@ -89,7 +89,7 @@ export default {
       list: null,
       dialogFormVisible: false,
       categoryCreating: false,
-      court:{},
+      product:{},
       total: 0,
       query: {
         page: 1,
@@ -115,7 +115,7 @@ export default {
     async getList() {
       const { limit, page } = this.query;
       this.loading = true;
-      const { data, meta } = await CourtResource.list(this.query);
+      const { data, meta } = await ProductResource.list(this.query);
       this.list = data;
       this.list.forEach((element, index) => {
         element['index'] = (page - 1) * limit + index + 1;
@@ -132,12 +132,12 @@ export default {
     },
     close() {
       this.dialogFormVisible = false;
-      this.Ambassador = {};
+      this.product = {};
     },
-    createCategory(){
-      axios.post('/api/courts', this.court).then((response) => {
+    createProduct(){
+      axios.post('/api/products', this.product).then((response) => {
         this.$message({
-              message: 'Court created successfully',
+              message: 'Product created successfully',
               type: 'success',
               duration: 5 * 1000,
             });
@@ -147,7 +147,7 @@ export default {
       });
     },
     handleUpdate(data){
-      this.category = data;
+      this.product = data;
       this.type = 'edit';
       this.dialogFormVisible = true;
       this.$nextTick(() => {
@@ -156,7 +156,7 @@ export default {
     },
     handleDelete(id) {
       this.$confirm(
-        'This will permanently delete Court ' + name + '. Continue?',
+        'This will permanently delete Product ' + name + '. Continue?',
         'Warning',
         {
           confirmButtonText: 'OK',
@@ -165,7 +165,7 @@ export default {
         }
       )
         .then(() => {
-          CourtResource.destroy(id)
+          ProductResource.destroy(id)
             .then((response) => {
               this.$message({
                 type: 'success',
