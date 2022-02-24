@@ -27,7 +27,9 @@
     <el-table v-loading="loading" :data="list" style="width: 100%">
       <el-table-column prop="id" label="Id" width="60" />
       <el-table-column prop="name" label="Name" width="150" />
-
+      <el-table-column prop="description" label="Description" width="150" />
+      <el-table-column prop="price" label="Price" width="100" />
+       <el-table-column prop="stock" label="Stock" width="100" />
       <el-table-column label="Operations" width="200">
         <template slot-scope="scope">
           <el-button
@@ -53,10 +55,19 @@
           <el-form-item label="Name" prop="name" required="">
             <el-input v-model="product.name" />
           </el-form-item>
+          <el-form-item label="Description" prop="description" required="">
+            <el-input v-model="product.description" />
+          </el-form-item>
+          <el-form-item label="Price" prop="price" required="">
+            <el-input v-model="product.price" />
+          </el-form-item>
+          <el-form-item label="Stock" prop="stock" required="">
+            <el-input v-model="product.stock" />
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="close">{{ $t('table.cancel') }}</el-button>
-          <el-button v-if="type === 'create'" type="primary" @click="createCategory">
+          <el-button v-if="type === 'create'" type="primary" @click="createProduct">
             {{ $t('table.confirm') }}
           </el-button>
         </div>
