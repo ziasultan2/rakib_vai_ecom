@@ -15,5 +15,8 @@ const getters = {
   permissions: state => state.user.permissions,
   permissionRoutes: state => state.permission.routes,
   addRoutes: state => state.permission.addRoutes,
+
+  quantity: state => state.cart.cartQuantity,
+  carts: state => state.cart.carts,
 };
 export default getters;

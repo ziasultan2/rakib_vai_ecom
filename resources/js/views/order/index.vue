@@ -23,6 +23,14 @@
         icon="el-icon-plus"
         @click="handleCreate"
       >{{ $t('table.add') }}</el-button>
+
+      <el-button
+        class="filter-item"
+        style="margin-left: 10px"
+        type="primary"
+        icon="el-icon-plus"
+        @click="goToCart"
+      >{{ cartTotal }}</el-button>
     </div>
     <el-table v-loading="loading" :data="list" style="width: 100%">
       <el-table-column prop="id" label="Id" width="60" />
@@ -53,19 +61,13 @@
         <el-form
           ref="categoryForm"
           :rules="rules"
-          :model="order"
+          :model="cart"
           label-position="left"
           label-width="150px"
           style="max-width: 500px"
         >
-          <el-form-item label="Name" prop="customer_name" required="">
-            <el-input v-model="order.customer_name" />
-          </el-form-item>
-          <el-form-item label="Phone" prop="phone" required="">
-            <el-input v-model="order.phone" />
-          </el-form-item>
           <el-form-item label="Product Id" prop="product_id" required="">
-            <el-select v-model="order.product_id" filterable placeholder="Select">
+            <el-select v-model="cart.product_id" filterable placeholder="Select">
                 <el-option
                   v-for="product in productList"
                   :key="product.id"
@@ -74,28 +76,19 @@
                 </el-option>
               </el-select>
           </el-form-item>
-          <el-form-item label="Price" prop="price" required="">
-            <el-input v-model="order.price" />
-          </el-form-item>
           <el-form-item label="Quantity" prop="quantity" required="">
-            <el-input v-model="order.quantity" />
+            <el-input v-model="cart.quantity" />
           </el-form-item>
           <el-form-item label="Discount" prop="discount" required="">
-            <el-input v-model="order.discount" />
+            <el-input v-model="cart.discount" />
           </el-form-item>
-          <el-form-item label="Total" prop="total" required="">
-            <el-input v-model="order.total" />
-          </el-form-item>
-          <el-form-item label="Due" prop="due">
-            <el-input v-model="order.due" />
-          </el-form-item>
-          <el-form-item label="Delivery Address" prop="address" required="">
-            <el-input v-model="order.address" />
+          <el-form-item label="Paid" prop="total" required="">
+            <el-input v-model="cart.total" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="close">{{ $t('table.cancel') }}</el-button>
-          <el-button v-if="type === 'create'" type="primary" @click="createProduct">
+          <el-button v-if="type === 'create'" type="primary" @click="addToCart">
             {{ $t('table.confirm') }}
           </el-button>
         </div>
@@ -128,7 +121,8 @@ export default {
       list: null,
       dialogFormVisible: false,
       categoryCreating: false,
-      order:{},
+      cart:{},
+      cartTotal: 0,
       productList: [],
       total: 0,
       query: {
@@ -180,16 +174,12 @@ export default {
       this.dialogFormVisible = false;
       this.order = {};
     },
-    createProduct(){
-      axios.post('/api/orders', this.order).then((response) => {
-        this.$message({
-              message: 'Order created successfully',
-              type: 'success',
-              duration: 5 * 1000,
-            });
-            this.getList();
-            this.close();
-            
+    addToCart(){
+      console.log('orders ', this.cart);
+      this.$store.dispatch('cart/addToCart', this.cart).then(() => {
+        this.cartTotal = this.$store.getters.carts.length;
+        this.cart = {};
+        this.dialogFormVisible = false;
       });
     },
     handleUpdate(data){
@@ -233,6 +223,9 @@ export default {
     handleFilter() {
       this.getList();
     },
+    goToCart(){
+      this.$router.push('/order/place');
+    }
   },
 };
 </script>
