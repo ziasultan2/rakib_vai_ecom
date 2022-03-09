@@ -16,6 +16,7 @@ import Layout from '@/layout';
 import adminRoutes from './modules/admin';
 import permissionRoutes from './modules/permission';
 import productRoutes from './modules/product';
+import orderRoutes from './modules/order';
 
 /**
  * Sub-menu only appear when children.length>=1
@@ -83,6 +84,20 @@ export const constantRoutes = [
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
         meta: { title: 'dashboard', icon: 'dashboard', noCache: false },
+      },
+    ],
+  },
+  orderRoutes,
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order',
+    children: [
+      {
+        path: 'show',
+        component: () => import('@/views/order/index'),
+        name: 'Orders',
+        meta: { title: 'Orders', icon: 'user', noCache: true },
       },
     ],
   },

@@ -30,6 +30,7 @@ Route::namespace('Api')->group(function() {
         });
 
         Route::apiResource('products', 'ProductController');
+        Route::apiResource('orders', 'OrderController');
 
         // Api resource routes
         Route::apiResource('roles', 'RoleController')->middleware('permission:' . Acl::PERMISSION_PERMISSION_MANAGE);
