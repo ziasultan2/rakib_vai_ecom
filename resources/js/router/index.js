@@ -16,7 +16,6 @@ import Layout from '@/layout';
 import adminRoutes from './modules/admin';
 import permissionRoutes from './modules/permission';
 import productRoutes from './modules/product';
-import orderRoutes from './modules/order';
 
 /**
  * Sub-menu only appear when children.length>=1
@@ -87,7 +86,6 @@ export const constantRoutes = [
       },
     ],
   },
-  orderRoutes,
   {
     path: '/order',
     component: Layout,

@@ -30,6 +30,7 @@ Route::namespace('Api')->group(function() {
         });
 
         Route::apiResource('products', 'ProductController');
+        Route::get('all-products', 'ProductController@all');
         Route::apiResource('orders', 'OrderController');
 
         // Api resource routes

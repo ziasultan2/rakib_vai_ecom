@@ -22,6 +22,11 @@ class ProductController extends Controller
         return ProductResource::collection($productQuery->orderBy('id', 'desc')->paginate($limit));
     }
 
+    public function all()
+    {
+        return Product::all();
+    }
+
     public function store(Request $request)
     {
         return Product::create([

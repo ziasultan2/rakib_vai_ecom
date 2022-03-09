@@ -65,7 +65,14 @@
             <el-input v-model="order.phone" />
           </el-form-item>
           <el-form-item label="Product Id" prop="product_id" required="">
-            <el-input v-model="order.product_id" />
+            <el-select v-model="order.product_id" filterable placeholder="Select">
+                <el-option
+                  v-for="product in productList"
+                  :key="product.id"
+                  :label="product.name"
+                  :value="product.id">
+                </el-option>
+              </el-select>
           </el-form-item>
           <el-form-item label="Price" prop="price" required="">
             <el-input v-model="order.price" />
@@ -122,6 +129,7 @@ export default {
       dialogFormVisible: false,
       categoryCreating: false,
       order:{},
+      productList: [],
       total: 0,
       query: {
         page: 1,
@@ -142,6 +150,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getProductList();
   },
   methods: {
     async getList() {
@@ -153,6 +162,11 @@ export default {
         element['index'] = (page - 1) * limit + index + 1;
       });
       this.loading = false;
+    },
+    async getProductList() {
+      axios.get('/api/all-products').then((response) => {
+        this.productList = response.data;
+      });
     },
     handleCreate(){
       this.type = 'create';
