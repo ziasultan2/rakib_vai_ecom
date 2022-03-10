@@ -10,13 +10,11 @@ class Order extends Model
         'user_id', 
         'customer_name',
         'phone',
-        'product_id',
-        'price',
-        'quantity',
+        'address',
         'total',
         'discount',
-        'address',
         'due',
-        'status'
+        'status',
+        'paid'
     ];
 }

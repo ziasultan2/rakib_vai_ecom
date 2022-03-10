@@ -36,9 +36,6 @@
       <el-table-column prop="id" label="Id" width="60" />
       <el-table-column prop="customer_name" label="Name" width="150" />
       <el-table-column prop="phone" label="Phone" width="150" />
-      <el-table-column prop="product_id" label="Product Id" width="100" />
-      <el-table-column prop="quantity" label="Quantity" width="100" />
-      <el-table-column prop="price" label="Price" width="100" />
       <el-table-column prop="discount" label="Discount" width="100" />
       <el-table-column prop="total" label="Total" width="100" />
       <el-table-column prop="address" label="Address" width="100" />
@@ -66,29 +63,33 @@
           label-width="150px"
           style="max-width: 500px"
         >
-          <el-form-item label="Product Id" prop="product_id" required="">
-            <el-select v-model="cart.product_id" filterable placeholder="Select">
+          <el-form-item label="Product Id" prop="product" required="">
+            <el-select v-model="cart.product" 
+            filterable 
+            placeholder="Select"
+            >
                 <el-option
                   v-for="product in productList"
                   :key="product.id"
                   :label="product.name"
-                  :value="product.id">
+                  :value="product">
                 </el-option>
               </el-select>
           </el-form-item>
           <el-form-item label="Quantity" prop="quantity" required="">
             <el-input v-model="cart.quantity" />
           </el-form-item>
+          <p v-if="product != null">{{product.price * cart.quantity}}</p>
           <el-form-item label="Discount" prop="discount" required="">
             <el-input v-model="cart.discount" />
           </el-form-item>
-          <el-form-item label="Paid" prop="total" required="">
-            <el-input v-model="cart.total" />
+          <el-form-item label="Paid" prop="paid" required="">
+            <el-input v-model="cart.paid" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="close">{{ $t('table.cancel') }}</el-button>
-          <el-button v-if="type === 'create'" type="primary" @click="addToCart">
+          <el-button type="primary" @click="addToCart">
             {{ $t('table.confirm') }}
           </el-button>
         </div>
@@ -122,6 +123,7 @@ export default {
       dialogFormVisible: false,
       categoryCreating: false,
       cart:{},
+      product: {},
       cartTotal: 0,
       productList: [],
       total: 0,
@@ -174,13 +176,22 @@ export default {
       this.dialogFormVisible = false;
       this.order = {};
     },
+    handleSelectedProduct(product){
+      console.log('product is ', product);
+      this.product = product;
+    },
     addToCart(){
       console.log('orders ', this.cart);
+      this.cart.total = (parseInt(this.cart.quantity) * parseInt(this.cart.product.price) - this.cart.discount);
+      console.log(this.cart);
       this.$store.dispatch('cart/addToCart', this.cart).then(() => {
-        this.cartTotal = this.$store.getters.carts.length;
+        this.getCartTotal();
         this.cart = {};
         this.dialogFormVisible = false;
       });
+    },
+    getCartTotal(){
+      this.cartTotal = this.$store.getters.carts.length;
     },
     handleUpdate(data){
       this.order = data;
