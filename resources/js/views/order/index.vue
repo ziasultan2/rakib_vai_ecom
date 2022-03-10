@@ -41,17 +41,23 @@
       <el-table-column prop="address" label="Address" width="100" />
       <el-table-column prop="due" label="Due" width="100" />
       <el-table-column prop="status" label="Status" width="100" />
-      <!-- <el-table-column label="Operations" width="200">
+      <el-table-column label="Operations" width="200">
         <template slot-scope="scope">
+          <router-link
+            :to="
+              '/order/'+
+              scope.row.id
+            "
+          >
           <el-button
-            type="danger"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row.id)"
+            type="success"
+            icon="el-icon-view"
             circle
           ></el-button>
-
+          </router-link>
+          
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
     <el-dialog :title="'Create new Order'" :visible.sync="dialogFormVisible">
       <div v-loading="categoryCreating" class="form-container">

@@ -104,6 +104,13 @@ export const constantRoutes = [
         meta: { title: 'Place Orders', icon: 'user', noCache: true },
         hidden: true,
       },
+      {
+        path: ':id(\\d+)',
+        component: () => import('@/views/order/show'),
+        name: 'Show Order',
+        meta: { title: 'Show Order', icon: 'user', noCache: true },
+        hidden: true,
+      },
     ],
   },
   productRoutes,

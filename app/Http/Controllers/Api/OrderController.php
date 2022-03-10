@@ -50,8 +50,11 @@ class OrderController extends Controller
         }
         return response()->json(['success' => true]);
     }
-    public function update(Request $request, $id)
+
+    public function show($id)
     {
-        //
+        $order = Order::find($id)->first();
+        $order->items = OrderItem::where('order_id', $id)->get();
+        return $order;
     }
 }
