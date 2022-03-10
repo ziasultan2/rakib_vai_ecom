@@ -69,7 +69,7 @@
           label-width="150px"
           style="max-width: 500px"
         >
-          <el-form-item label="Product Id" prop="product" required="">
+          <el-form-item label="Product Name" prop="product" required="">
             <el-select v-model="cart.product" 
             filterable 
             placeholder="Select"
